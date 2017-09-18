@@ -36,6 +36,10 @@ HEADERS += \
 FORMS += \
         dialog.ui
 
+RESOURCES += \
+        logo.rc
+
+
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += opencv
 

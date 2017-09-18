@@ -78,16 +78,7 @@ void Dialog::on_start_clicked()
     Mat image_pre_proess;
     number_image_real = number_image.scaled(28, 28, Qt::KeepAspectRatioByExpanding);//,Qt::SmoothTransformation);
     image_pre_proess = QImage2cvMat(number_image_real);
-    imshow("processed",image_pre_proess);
-//    for(int counter_y = 0; counter_y < number_image_real.bytesPerLine(); counter_y++)
-//    {
-//        for(int counter_x = 0; counter_x < number_image_real.bytesPerLine(); counter_x++)
-//        {
-//            qDebug() << image_pionter;
-//            image_pionter++;
-//        }
-//        qDebug()<<endl;
-//    }
+    //imshow("processed",image_pre_proess);
     std::cout<<"the number Mat is:"<<endl<<image_pre_proess<<endl<<endl;
 }
 
