@@ -14,12 +14,25 @@ History:
 #define draw_inter_factor 25
 #define clear_inter_factor 50
 
+/*************************************************
+Function:     Dialog::Dialog(QWidget *parent) :
+                      QDialog(parent),
+                      ui(new Ui::Dialog)
+Description:  none
+Calls:        none
+Called By:    all
+Input:        none
+Output:       none
+Return:       none
+Others:       none
+*************************************************/
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog)
 {
     /*init parameter*/
     number_image.fill(Qt::white);
+    number_image_real.fill(Qt::black);
 
     /*ui setup*/
     ui->setupUi(this);
@@ -31,9 +44,6 @@ Dialog::Dialog(QWidget *parent) :
     plotboard  = new QGraphicsScene(this);
 
     ui->graphicsView->setScene(plotboard);
-    ui->graphicsView_2->setChart(chart);
-    ui->graphicsView_2->setRenderHint(QPainter::Antialiasing);
-    ui->graphicsView_2->show();
 
     plotboard->clear();
     plotboard->addPixmap(QPixmap::fromImage(number_image));
@@ -42,6 +52,16 @@ Dialog::Dialog(QWidget *parent) :
     connect(ui->graphicsView,SIGNAL(Mouse_Moved()),this,SLOT(in_Mouse_Moved()));
 }
 
+/*************************************************
+Function:     Dialog::~Dialog()
+Description:  none
+Calls:        none
+Called By:    all
+Input:        none
+Output:       none
+Return:       none
+Others:       none
+*************************************************/
 Dialog::~Dialog()
 {
     delete ui;
@@ -59,11 +79,7 @@ Others:       none
 *************************************************/
 void Dialog::on_upload_clicked()
 {
-    QBarSet *set0 = new QBarSet("Probability");
-    *set0 << 0.0001 << 0.0044 << 0.054 << 0.242 << 0.3989 << 0.242 << 0.054 << 0.0044 << 0.0001 << 0;
-    series->append(set0);
-    chart->addSeries(series);
-    chart->createDefaultAxes();
+    this->chart_show();
 }
 
 /*************************************************
@@ -78,7 +94,7 @@ Others:       none
 *************************************************/
 void Dialog::on_download_clicked()
 {
-
+    this->chart_init();
 }
 
 /*************************************************
@@ -93,12 +109,33 @@ Others:       none
 *************************************************/
 void Dialog::on_start_clicked()
 {
-    QImage number_image_real;
-//    Mat image_pre_proess;
-    number_image_real = number_image.scaled(28, 28, Qt::KeepAspectRatioByExpanding);//,Qt::SmoothTransformation);
-//    image_pre_proess = QImage2cvMat(number_image_real);
-//    imshow("processed",image_pre_proess);
-//    std::cout<<"the number Mat is:"<<endl<<image_pre_proess<<endl<<endl;
+    QImage number_image_out;
+    QRgb color_buf;
+    QRgb value_white = qRgb(255, 255, 255),
+         value_black = qRgb(0, 0, 0);
+    number_image_out = number_image_real.scaled(28, 28, Qt::KeepAspectRatioByExpanding);
+
+    for(int counter_y = 0; counter_y < 28; counter_y++)
+    {
+        for(int counter_x = 0; counter_x < 28; counter_x++)
+        {
+            color_buf = number_image_out.pixel(counter_x,counter_y);
+            if(color_buf == value_black)
+            {
+                qDebug() << "0,";
+            }
+            else if(color_buf == value_white)
+            {
+                qDebug() << "255,";
+            }
+            else
+            {
+                qDebug() << "1,";
+            }
+        }
+        qDebug() << endl;
+    }
+    qDebug() << endl;
 }
 
 /*************************************************
@@ -115,6 +152,7 @@ void Dialog::on_clear_clicked()
 {
     plotboard->clear();
     number_image.fill(Qt::white);
+    number_image_real.fill(Qt::black);
     plotboard->addPixmap(QPixmap::fromImage(number_image));
 }
 
@@ -131,7 +169,8 @@ Others:       none
 void Dialog::in_Mouse_Moved()
 {
     QRgb value_blue = qRgb(42, 154, 221),
-         value_white = qRgb(255, 255, 255);
+         value_white = qRgb(255, 255, 255),
+         value_black = qRgb(0, 0, 0);
     plotboard->clear();
     if(ui->graphicsView->left_mouse_pressed == true)
     {
@@ -140,6 +179,7 @@ void Dialog::in_Mouse_Moved()
             for(int counter_y = 0; counter_y < draw_inter_factor; counter_y++)
             {
                 number_image.setPixel((ui->graphicsView->left_events_buffer[0].x) + counter_x,(ui->graphicsView->left_events_buffer[0].y) + counter_y,value_blue);
+                number_image_real.setPixel((ui->graphicsView->left_events_buffer[0].x) + counter_x,(ui->graphicsView->left_events_buffer[0].y) + counter_y,value_white);
             }
         }
         ui->graphicsView->left_events_buffer.clear();
@@ -151,7 +191,7 @@ void Dialog::in_Mouse_Moved()
             for(int counter_y = 0; counter_y < clear_inter_factor; counter_y++)
             {
                 number_image.setPixel((ui->graphicsView->right_events_buffer[0].x) + counter_x,(ui->graphicsView->right_events_buffer[0].y) + counter_y,value_white);
-                //number_image.setPixel((ui->graphicsView->right_events_buffer[0].x) + counter_x,(ui->graphicsView->right_events_buffer[0].y) + counter_y,value_white);
+                number_image_real.setPixel((ui->graphicsView->right_events_buffer[0].x) + counter_x,(ui->graphicsView->right_events_buffer[0].y) + counter_y,value_black);
             }
         }
         ui->graphicsView->right_events_buffer.clear();
@@ -161,6 +201,21 @@ void Dialog::in_Mouse_Moved()
         return;
     }
     plotboard->addPixmap(QPixmap::fromImage(number_image));
+}
+
+/*************************************************
+Function:     Dialog::in_chart_show()
+Description:  Image2cvMat
+Calls:        none
+Called By:    none
+Input:        none
+Output:       none
+Return:       none
+Others:       none
+*************************************************/
+void Dialog::in_chart_show()
+{
+
 }
 
 /*************************************************
@@ -269,20 +324,60 @@ Others:       none
 *************************************************/
 void Dialog::chart_init()
 {
-//    set0 = new QBarSet("Probability");
-    series = new QBarSeries();
-    chart = new QChart();
-    X_axis = new QBarCategoryAxis();
+    QBarSeries *series = new QBarSeries();
+    QChart *chart = new QChart();
+    QBarCategoryAxis *X_axis = new QBarCategoryAxis();
+    QStringList categories_x;
+    QBarSet *set0 = new QBarSet("Probability");
+    *set0 << 0 << 0 << 0 << 0 << 0 << 0 << 0 << 0 << 0 << 0;
+    series->append(set0);
+    chart->addSeries(series);
+    chart->createDefaultAxes();
 
-//    *set0 << 0.0001 << 0.0044 << 0.054 << 0.242 << 0.3989 << 0.242 << 0.054 << 0.0044 << 0.0001 << 0;
-//    series->append(set0);
-//    chart->addSeries(series);
-    chart->setTitle("Tianji computation result");
+    chart->setTitle("Tianjic computation result");
     chart->setAnimationOptions(QChart::SeriesAnimations);
-    categories << "0" << "1" << "2" << "3" << "4" << "5" << "6" << "7" << "8" << "9";
-    X_axis->append(categories);
+    categories_x << "0" << "1" << "2" << "3" << "4" << "5" << "6" << "7" << "8" << "9";
+    X_axis->append(categories_x);
     chart->createDefaultAxes();
     chart->setAxisX(X_axis, series);
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignBottom);
+    ui->graphicsView_2->setChart(chart);
+    ui->graphicsView_2->setRenderHint(QPainter::Antialiasing);
+    ui->graphicsView_2->show();
+}
+
+/*************************************************
+Function:     Dialog::chart_init()
+Description:  chart init
+Calls:        none
+Called By:    none
+Input:        none
+Output:       none
+Return:       none
+Others:       none
+*************************************************/
+void Dialog::chart_show()
+{
+    QBarSeries *series = new QBarSeries();
+    QChart *chart = new QChart();
+    QBarCategoryAxis *X_axis = new QBarCategoryAxis();
+    QStringList categories_x;
+    QBarSet *set0 = new QBarSet("Probability");
+
+    *set0 << 0.0001 << 0.0044 << 0.054 << 0.242 << 0.4 << 0.242 << 0.054 << 0.0044 << 0.0001 << 0;
+    series->append(set0);
+    chart->addSeries(series);
+    chart->createDefaultAxes();
+    chart->setTitle("Tianjic computation result");
+    chart->setAnimationOptions(QChart::SeriesAnimations);
+    categories_x << "0" << "1" << "2" << "3" << "4" << "5" << "6" << "7" << "8" << "9";
+    X_axis->append(categories_x);
+    chart->createDefaultAxes();
+    chart->setAxisX(X_axis, series);
+    chart->legend()->setVisible(true);
+    chart->legend()->setAlignment(Qt::AlignBottom);
+    ui->graphicsView_2->setChart(chart);
+    ui->graphicsView_2->setRenderHint(QPainter::Antialiasing);
+    ui->graphicsView_2->show();
 }

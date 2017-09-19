@@ -56,16 +56,14 @@ class Dialog : public QDialog
 public:
     explicit Dialog(QWidget *parent = 0);
     ~Dialog();
-    QImage number_image = QImage(560,560,QImage::Format_RGB32);
+    QImage number_image = QImage(560,560,QImage::Format_RGB888);
+    QImage number_image_real = QImage(560,560,QImage::Format_RGB888);
 //    Mat QImage2cvMat(QImage image);
 //    QImage cvMat2QImage(const Mat &mat);
 
-    //QBarSet *set0;
-    QBarSeries *series;
-    QChart *chart;
-    QBarCategoryAxis *X_axis;
-    QStringList categories;
     void chart_init();
+
+    void chart_show();
 
 private slots:
     void on_upload_clicked();
@@ -77,6 +75,8 @@ private slots:
     void on_clear_clicked();
 
     void in_Mouse_Moved();
+
+    void in_chart_show();
 
 private:
     Ui::Dialog *ui;
