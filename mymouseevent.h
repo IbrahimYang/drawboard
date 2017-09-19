@@ -38,13 +38,15 @@ public:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
-    std::vector<Event_buf> events_buffer;
+    std::vector<Event_buf> left_events_buffer;
+    std::vector<Event_buf> right_events_buffer;
+    bool left_mouse_pressed = false;
+    bool right_mouse_pressed = false;
 
 signals:
     void Mouse_Moved();
 
 private:
-    bool mouse_pressed = false;
 };
 
 #endif // MYMOUSEEVENT_H

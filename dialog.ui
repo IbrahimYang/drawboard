@@ -10,52 +10,18 @@
     <height>658</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>50</verstretch>
+   </sizepolicy>
+  </property>
   <property name="mouseTracking">
    <bool>false</bool>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>610</y>
-     <width>340</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QPushButton" name="upload">
-      <property name="text">
-       <string>upload</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="download">
-      <property name="text">
-       <string>download</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="start">
-      <property name="text">
-       <string>start</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="stop">
-      <property name="text">
-       <string>clear</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
   <widget class="myMouseEvent" name="graphicsView">
    <property name="enabled">
     <bool>true</bool>
@@ -75,24 +41,60 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="myMouseEvent" name="graphicsView_2">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
+  <widget class="QChartView" name="graphicsView_2">
    <property name="geometry">
     <rect>
-     <x>700</x>
-     <y>90</y>
-     <width>256</width>
-     <height>192</height>
+     <x>610</x>
+     <y>170</y>
+     <width>461</width>
+     <height>411</height>
     </rect>
    </property>
-   <property name="cursor" stdset="0">
-    <cursorShape>CrossCursor</cursorShape>
+  </widget>
+  <widget class="QSplitter" name="splitter">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>590</y>
+     <width>1171</width>
+     <height>51</height>
+    </rect>
    </property>
-   <property name="mouseTracking">
-    <bool>true</bool>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
    </property>
+   <widget class="QPushButton" name="download">
+    <property name="text">
+     <string>download</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="upload">
+    <property name="text">
+     <string>upload</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="start">
+    <property name="text">
+     <string>start</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="clear">
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="acceptDrops">
+     <bool>false</bool>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>clear</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -101,6 +103,11 @@
    <class>myMouseEvent</class>
    <extends>QGraphicsView</extends>
    <header location="global">mymouseevent.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QChartView</class>
+   <extends>QGraphicsView</extends>
+   <header location="global">QtCharts/QChartView</header>
   </customwidget>
  </customwidgets>
  <resources/>

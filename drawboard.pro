@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,12 +27,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         dialog.cpp \
-    mymouseevent.cpp
+    mymouseevent.cpp \
+    mysoftmax.cpp
 
 HEADERS += \
         dialog.h \
     mymouseevent.h \
-    event.h
+    event.h \
+    mysoftmax.h
 
 FORMS += \
         dialog.ui
@@ -40,10 +43,10 @@ RESOURCES += \
         logo.rc
 
 
-unix: CONFIG += link_pkgconfig
-unix: PKGCONFIG += opencv
+#unix: CONFIG += link_pkgconfig
+#unix: PKGCONFIG += opencv
 
-INCLUDEPATH+=/usr/local/include
-INCLUDEPATH+=/usr/local/include/opencv
+#INCLUDEPATH+=/usr/local/include
+#INCLUDEPATH+=/usr/local/include/opencv
 
-LIBS+=-L/usr/local/lib  -lopencv_ml -lopencv_shape -lopencv_stitching -lopencv_superres -lopencv_videostab -lopencv_calib3d -lopencv_features2d -lopencv_highgui -lopencv_videoio -lopencv_photo -lopencv_imgcodecs -lopencv_video -lopencv_objdetect -lopencv_imgproc -lopencv_flann -lopencv_core
+#LIBS+=-L/usr/local/lib  -lopencv_ml -lopencv_shape -lopencv_stitching -lopencv_superres -lopencv_videostab -lopencv_calib3d -lopencv_features2d -lopencv_highgui -lopencv_videoio -lopencv_photo -lopencv_imgcodecs -lopencv_video -lopencv_objdetect -lopencv_imgproc -lopencv_flann -lopencv_core
