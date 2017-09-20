@@ -23,8 +23,8 @@ History:
 #include <iostream>
 #include <queue>
 
-#define View_X_Offset 10
-#define View_Y_Offset 10
+#define View_X_Offset 11
+#define View_Y_Offset 11
 #define View_X_Max 560
 #define View_Y_Max 560
 

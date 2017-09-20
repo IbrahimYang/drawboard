@@ -32,16 +32,10 @@ History:
 /*include local my head file library*/
 #include <mymouseevent.h>
 
-/*include local opencv library*/
-//#include <opencv2/opencv.hpp>
-//#include <opencv2/highgui/highgui.hpp>
-//#include <opencv2/imgproc/imgproc.hpp>
-
 /*include local c++ library*/
-//#include <iostream>
+#include <iostream>
 
-//using namespace std;
-//using namespace cv;
+using namespace std;
 
 QT_CHARTS_USE_NAMESPACE
 
@@ -56,14 +50,13 @@ class Dialog : public QDialog
 public:
     explicit Dialog(QWidget *parent = 0);
     ~Dialog();
-    QImage number_image = QImage(560,560,QImage::Format_RGB888);
-    QImage number_image_real = QImage(560,560,QImage::Format_RGB888);
-//    Mat QImage2cvMat(QImage image);
-//    QImage cvMat2QImage(const Mat &mat);
 
     void chart_init();
 
     void chart_show();
+
+    QImage number_image = QImage(560,560,QImage::Format_RGB888);
+    QImage number_image_real = QImage(560,560,QImage::Format_Grayscale8);
 
 private slots:
     void on_upload_clicked();
